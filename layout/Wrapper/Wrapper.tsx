@@ -9,11 +9,11 @@ interface wrapperprops {
 const Wrapper = (props: wrapperprops) => {
   const { children } = props;
   return (
-    <div>
+    <>
       <Header />
       <Box className="body_content">{children}</Box>
       <Footer />
-    </div>
+    </>
   );
 };
 

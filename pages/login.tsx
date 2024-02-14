@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Container, Paper, TextField, Typography } from "@mui/material";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { validationText } from "@/utils/validationtext";
 import { useRouter } from "next/router";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase";
 
 interface loggedData {
@@ -40,14 +40,24 @@ const Login = () => {
       const user = userCredential.user;
 
       if (window !== undefined) {
+        // onAuthStateChanged(auth, (user) => {
+        //   if (user) {
+        //     const uid = user.uid;
+        //     localStorage.setItem("uid", uid);
+        //     router.push("/");
+        //   }
+        // });
         window.localStorage.setItem("uid", user.uid);
         console.log("User created:", user);
         router.push("/");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error creating user:", error);
+      alert(error.message);
     }
   };
+
+  const [currentUser, setCurrentUser] = useState(null);
 
   return (
     <div>
@@ -58,12 +68,12 @@ const Login = () => {
         >
           Login Form
         </Typography>
-        <Paper sx={{ p: 5, mx:10, }}>
+        <Paper sx={{ p: 5, mx: 10 }}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <TextField
               fullWidth
               sx={{ my: 2 }}
-              label='Email'
+              label="Email"
               {...register("email", { required: true, maxLength: 20 })}
               error={Boolean(errors?.email)}
               helperText={errors?.email?.message}
@@ -71,13 +81,13 @@ const Login = () => {
             <TextField
               fullWidth
               sx={{ my: 2 }}
-              label='Password'
+              label="Password"
               {...register("password", { required: true, maxLength: 20 })}
               type="password"
               error={Boolean(errors?.password)}
               helperText={errors?.password?.message}
             />
-            <div style={{textAlign:'center'}}>
+            <div style={{ textAlign: "center" }}>
               <Button variant="contained" type="submit">
                 Submit
               </Button>

@@ -110,7 +110,7 @@ const signup = () => {
               width: "50%",
               height: "500px",
               margin: " 50px auto",
-              backgroundImage: 'linear-gradient(to right, violet , lightgreen)'
+              backgroundImage: 'linear-gradient(to top, lightblue , lightgreen)'
             }}
           >
             <Box
@@ -156,7 +156,9 @@ const signup = () => {
               />
               {/* <Input type="file" value={image} onChange={handleImageChange} /> */}
               <div style={{textAlign:'center', marginTop:'5px'}}>
-                <Button type="submit" variant="contained" sx={{backgroundImage:'linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet)'}}>
+                <Button type="submit" variant="contained" sx={{
+                  backgroundImage: 'linear-gradient(to right, violet , lightgreen)'
+                  }}>
                   Submit
                 </Button>
               </div>
