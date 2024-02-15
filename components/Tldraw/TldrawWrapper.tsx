@@ -1,26 +1,35 @@
-import { TLUiOverrides, Tldraw } from '@tldraw/tldraw'
-import React from 'react'
+import { Container, Grid } from "@mui/material";
+import {
+  BaseRecord,
+  TLShapeId,
+  TLUiOverrides,
+  Tldraw,
+  createTLStore,
+  defaultShapeUtils,
+  useEditor,
+} from "@tldraw/tldraw";
+import React, { useState } from "react";
 
 const myOverrides: TLUiOverrides = {
   actions(editor, actions) {
     // You can delete actions, but remember to
     // also delete the menu items that reference them!
-    delete actions['insert-embed']
+    delete actions["insert-embed"];
 
     // Create a new action or replace an existing one
-    actions['my-new-action'] = {
-      id: 'my-new-action',
-      label: 'My new action' as any,
+    actions["my-new-action"] = {
+      id: "my-new-action",
+      label: "My new action" as any,
       readonlyOk: true,
-      kbd: '$u',
+      kbd: "$u",
       onSelect(source: any) {
         // Whatever you want to happen when the action is run
-        window.alert('My new action just happened!')
+        window.alert("My new action just happened!");
       },
-    }
-    return actions
+    };
+    return actions;
   },
-}
+};
 // import {
 //   ColorStyle,
 //   DashStyle,
@@ -84,13 +93,70 @@ const myOverrides: TLUiOverrides = {
 //   assets: {}
 // };
 // editor.setCurrentTool('draw')
+interface TLBaseShape<Type extends string, Props extends object>
+  extends BaseRecord<"shape", TLShapeId> {}
 
-const TldrawWrapper = () => {
-  return (
-    <div style={{ position: 'fixed', inset: 0 }}>
-    <Tldraw />
-  </div>
-  )
+// type CardShape = TLBaseShape<'card', { w: number; h: number }>
+// export default function () {
+// 	const [store] = useState(() => {
+// 		// Create the store
+// 		const newStore = createTLStore({
+// 			shapeUtils: defaultShapeUtils,
+// 		})
+
+// 		// Get the snapshot
+// 		const stringified = localStorage.getItem('my-editor-snapshot')
+// 		const snapshot = JSON.parse(stringified)
+
+// 		// Load the snapshot
+// 		newStore.loadSnapshot(snapshot)
+
+// 		return newStore
+// 	})
+
+// 	return <Tldraw persistenceKey="my-persistence-key" store={store} />
+// }
+
+interface SerializedSchema {
+  recordVersions: Record<
+    string,
+    | {
+        version: number;
+        subTypeVersions: Record<string, number>;
+        subTypeKey: string;
+      }
+    | {
+        version: number;
+      }
+  >;
 }
 
-export default TldrawWrapper
+
+const TldrawWrapper = () => {
+  const editor=useEditor()
+  const [store, setStore] = useState(() => {
+    // Create the store
+    const newStore = createTLStore({
+      shapeUtils: defaultShapeUtils,
+    });
+  
+    // Get the snapshot
+    const stringified = localStorage.getItem("my-editor-snapshot");
+    const snapshot = JSON.parse(stringified as any);
+    if (snapshot) {
+      // Load the snapshot
+      newStore?.loadSnapshot(snapshot);
+    }
+  
+    return newStore;
+  });
+
+  return (
+    <div style={{ position: "fixed", inset: 0 }}>
+      <Tldraw persistenceKey="my-persistance-key"
+      />
+    </div>
+  );
+};
+
+export default TldrawWrapper;

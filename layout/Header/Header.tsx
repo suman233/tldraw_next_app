@@ -185,6 +185,14 @@ function Header() {
                     Home
                   </Button>
                 </Link>
+                <Link href={"/dashboard/${slug}"} style={{ textDecoration: "none" }}>
+                  <Button
+                    
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    Dashboard
+                  </Button>
+                </Link>
                 <Link href={"/draw"} style={{ textDecoration: "none" }}>
                   <Button
                     onClick={handleCloseNavMenu}

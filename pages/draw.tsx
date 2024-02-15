@@ -1,11 +1,11 @@
 // import TldrawWrapper from "@/components/Tldraw/TldrawWrapper";
-import { Box, Button, Card } from "@mui/material";
+import { Box, Button, Card, Container, Grid, TextField } from "@mui/material";
 import { Typography } from "@mui/material/styles/createTypography";
 import dynamic from "next/dynamic";
 import { auth, storage } from "@/firebase";
 // import firebase from 'firebase/app';
 import { useState } from "react";
-import { Canvas, TLUiOverrides } from "@tldraw/tldraw";
+
 import {
   ref as storageRef,
   uploadBytes,
@@ -28,6 +28,7 @@ export function toBlob(canvas: HTMLCanvasElement): Promise<Blob> {
 }
 
 const Draw = () => {
+  // const editor=useEditor()
   const [drawing, setDrawing] = useState<CanvasDrawImage | null>(null);
 
   const saveDrawingToFirebase = async () => {
@@ -41,20 +42,65 @@ const Draw = () => {
     // });
   };
 
-  
+  //   const canvasRef = useRef(null);
+  //   const [drawing, setDrawing] = useState(null);
+
+  //   useEffect(() => {
+  //     // Load existing drawing from Firestore
+  //     const loadDrawing = async () => {
+  //       const docRef = await db.collection('drawings').doc('drawingId').get();
+  //       if (docRef.exists) {
+  //         setDrawing(docRef.data());
+  //       }
+  //     };
+  //     loadDrawing();
+  //   }, []);
+
+  //   const saveDrawing = async () => {
+  //     const drawingData = canvasRef.current.getDrawingData();
+  //     await storage.ref('drawings/drawingId').putString(JSON.stringify(drawingData));
+  //     setDrawing(drawingData);
+  //   };
+  // const updateDrawing = async () => {
+  //     const drawingData = canvasRef.current.getDrawingData();
+  //     await storage.ref('drawings/drawingId').putString(JSON.stringify(drawingData));
+  //     setDrawing(drawingData);
+  //   };
+
+  const [image, setImage] = useState<string[] | {}>();
+  // const handleImgChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files) setImage(e.target.files[0]);
+  // };
+
   return (
     <>
-      <Box style={{ position: "fixed", inset: 0 }}>
-        <TldrawWrapper />
-        <div style={{ position: "absolute", marginTop: "42%" }}>
-          {/* <Canvas
+      <Container>
+        <Grid container spacing={2}>
+          <Grid item xs={2}>
+            <Button>Save</Button>
+          </Grid>
+          <Grid item xs={8}>
+            <Box>
+              <TldrawWrapper />
+            </Box>
+          </Grid>
+
+          {/* <div style={{ position: "absolute", marginTop: "42%" }}>
+          <Canvas
           onChange={(e) => setDrawing(e)}
           defaultValue={/ default drawing data /}
-      /> */}
+      />
+
+      
+      
       
           <Button variant="contained">Save</Button>
-        </div>
-      </Box>
+        </div> */}
+          <Grid item xs={2}>
+            <Button>Load</Button>
+          </Grid>
+        </Grid>
+      </Container>
     </>
   );
 };
