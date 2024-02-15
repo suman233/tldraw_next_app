@@ -11,8 +11,8 @@ const Wrapper = (props: wrapperprops) => {
   return (
     <>
       <Header />
-      <Box className="body_content">{children}</Box>
-      <Footer />
+      <Box height={'auto'} className="body_content">{children}</Box>
+      {/* <Footer /> */}
     </>
   );
 };
