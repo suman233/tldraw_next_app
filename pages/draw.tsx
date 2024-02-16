@@ -11,6 +11,7 @@ import {
   uploadBytes,
   getDownloadURL,
 } from "firebase/storage";
+import { Tldraw } from "@tldraw/tldraw";
 
 const TldrawWrapper = dynamic(
   () => import("@/components/Tldraw/TldrawWrapper"),
@@ -81,7 +82,11 @@ const Draw = () => {
           </Grid>
           <Grid item xs={8}>
             <Box>
-              <TldrawWrapper />
+            <div style={{ position: "fixed", inset: 0 }}>
+      
+      <TldrawWrapper
+      />
+    </div>
             </Box>
           </Grid>
 
